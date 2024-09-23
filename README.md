@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paws & Walk - Hondenuitlaatservice</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Paws & Walk - Hondenuitlaatservice</h1>
+        <nav>
+            <ul id="menu">
+                <!-- Menu wordt gegenereerd door JavaScript -->
+            </ul>
+        </nav>
+    </header>
+
+    <main id="content">
+        <!-- Inhoud wordt gegenereerd door JavaScript -->
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Paws & Walk - Hondenuitlaatservice</p>
+    </footer>
+</body>
+</html>body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+section {
+    padding: 20px;
+    margin: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #4CAF50;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}// JavaScript om de inhoud van de website dynamisch te genereren
+
+// Pagina-inhoud als object
+const paginas = {
+    'home': {
+        title: 'Welkom bij Paws & Walk',
+        content: 'Wij zijn dé betrouwbare hondenuitlaatservice in jouw regio. Of je nu een drukke werkdag hebt of even weg moet, wij zorgen ervoor dat jouw hond de aandacht en beweging krijgt die hij verdient!'
+    },
+    'diensten': {
+        title: 'Onze Diensten',
+        content: `
+            <ul>
+                <li>Individuele wandelingen</li>
+                <li>Groepswandelingen</li>
+                <li>Ophalen en thuisbrengen</li>
+                <li>Puppywandelingen</li>
+            </ul>
+        `
+    },
+    'overOns': {
+        title: 'Over Ons',
+        content: 'Wij zijn een team van ervaren hondenliefhebbers met jarenlange ervaring in het verzorgen en uitlaten van honden. Onze passie is ervoor zorgen dat elke hond de beweging en zorg krijgt die hij nodig heeft.'
+    },
+    'tarieven': {
+        title: 'Tarieven',
+        content: `
+            <table>
+                <tr>
+                    <th>Dienst</th>
+                    <th>Prijs</th>
+                </tr>
+                <tr>
+                    <td>Individuele wandeling (30 min)</td>
+                    <td>€15</td>
+                </tr>
+                <tr>
+                    <td>Groepswandeling (1 uur)</td>
+                    <td>€20</td>
+                </tr>
+                <tr>
+                    <td>Puppywandelingen (30 min)</td>
+                    <td>€12</td>
+                </tr>
+            </table>
+        `
+    },
+    'contact': {
+        title: 'Contact',
+        content: `
+            <p>Heb je vragen of wil je een afspraak maken? Neem gerust contact met ons op via onderstaand formulier:</p>
+            <form id="contactForm">
+                <label for="name">Naam:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="message">Bericht:</label>
+                <textarea id="message" name="message" required></textarea>
+                
+                <button type="submit">Verstuur</button>
+            </form>
+            <p id="error-message" style="color: red;"></p>
+        `
+    }
+};
+
+// Functie om de navigatie te genereren
+function genereerMenu() {
+    const menu = document.getElementById('menu');
+    for (const pagina in paginas) {
+        const menuItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = `#${pagina}`;
+        link.textContent = pagina.charAt(0).toUpperCase() + pagina.slice(1);
+        link.addEventListener('click', () => toonPagina(pagina));
+        menuItem.appendChild(link);
+        menu.appendChild(menuItem);
+    }
+}
+
+// Functie om de juiste pagina-inhoud te tonen
+function toonPagina(pagina) {
+    const contentDiv = document.getElementById('content');
+    contentDiv.innerHTML = `
+        <section>
+            <h2>${paginas[pagina].title}</h2>
+            ${paginas[pagina].content}
+        </section>
+    `;
+}
+
+// Functie om de contactformulier validatie toe te voegen
+function voegFormulierValidatieToe() {
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            if (name === "" || email === "" || message === "") {
+                event.preventDefault();
+                errorMessage.textContent = "Vul alstublieft alle velden in.";
+            } else {
+                errorMessage.textContent = "";
+            }
+        });
+    }
+}
+
+// Start de website door het menu en de homepagina te tonen
+window.onload = function() {
+    genereerMenu();
+    toonPagina('home');
+    voegFormulierValidatieToe();
+};
